@@ -13,13 +13,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
     EditText email, password;
-    Button loginBtn;
+    MaterialButton loginBtn;
     TextView registerText;
 
     FirebaseAuth auth;
@@ -29,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+       Objects.requireNonNull(getSupportActionBar()).setTitle("Login Activity");
 
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);

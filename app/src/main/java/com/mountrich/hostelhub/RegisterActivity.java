@@ -15,17 +15,19 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity {
 
     EditText name, email, password;
     AutoCompleteTextView roleSpinner;
-    Button registerBtn;
+    MaterialButton registerBtn;
 
     FirebaseAuth auth;
     FirebaseFirestore db;
@@ -35,6 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Register Activity");
         name = findViewById(R.id.name);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
