@@ -6,24 +6,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.cardview.widget.CardView;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.w3c.dom.Text;
 
 import java.util.Objects;
 
 public class StudentDashboardActivity extends AppCompatActivity {
 
     TextView welcomeText, emailText;
-    TextView profileBtn, complaintBtn, gatepassBtn, logoutBtn;
+    Button profileBtn, complaintBtn, gatepassBtn, logoutBtn;
+
+    CardView jijauCard, savitriCard, matoshriCard, messCard;
 
     FirebaseAuth auth;
     FirebaseFirestore db;
@@ -32,7 +28,9 @@ public class StudentDashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_dashboard);
+
         Objects.requireNonNull(getSupportActionBar()).setTitle("User Dashboard");
+
         welcomeText = findViewById(R.id.welcomeText);
         emailText = findViewById(R.id.emailText);
 
@@ -41,18 +39,25 @@ public class StudentDashboardActivity extends AppCompatActivity {
         gatepassBtn = findViewById(R.id.gatepassBtn);
         logoutBtn = findViewById(R.id.logoutBtn);
 
+        // CardViews
+        jijauCard = findViewById(R.id.jijauCard);
+        savitriCard = findViewById(R.id.savitriCard);
+        matoshriCard = findViewById(R.id.matoshriCard);
+        messCard = findViewById(R.id.messCard);
+
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
         loadUserData();
 
+        // 🔓 Logout
         logoutBtn.setOnClickListener(v -> {
             auth.signOut();
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(new Intent(this, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
             finish();
         });
 
-        // Navigation (we will build these screens later)
+        // 🔘 Buttons Navigation
         profileBtn.setOnClickListener(v ->
                 Toast.makeText(this, "Profile Coming Soon", Toast.LENGTH_SHORT).show());
 
@@ -61,9 +66,30 @@ public class StudentDashboardActivity extends AppCompatActivity {
 
         gatepassBtn.setOnClickListener(v ->
                 Toast.makeText(this, "Gatepass Module Next", Toast.LENGTH_SHORT).show());
+
+        // 🧱 Card Clicks
+        jijauCard.setOnClickListener(v ->
+                Toast.makeText(this, "Jijau Hostel", Toast.LENGTH_SHORT).show());
+
+        savitriCard.setOnClickListener(v ->
+                Toast.makeText(this, "Savitri Hostel", Toast.LENGTH_SHORT).show());
+
+        matoshriCard.setOnClickListener(v ->
+                Toast.makeText(this, "Matoshri Hostel", Toast.LENGTH_SHORT).show());
+
+        messCard.setOnClickListener(v ->
+                Toast.makeText(this, "Mess Details", Toast.LENGTH_SHORT).show());
     }
 
     private void loadUserData() {
+
+        if (auth.getCurrentUser() == null) {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+
         String userId = auth.getCurrentUser().getUid();
 
         db.collection("users").document(userId)

@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setTitle("Login");
 
-        email = findViewById(R.id.email);
+        email = findViewById(R.id.emailText);
         password = findViewById(R.id.password);
         loginBtn = findViewById(R.id.loginBtn);
         registerText = findViewById(R.id.registerText);

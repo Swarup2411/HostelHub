@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -9,39 +10,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="16dp">
 
-        <!-- HEADER -->
+        <!-- 🔵 HEADER CARD -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            app:cardCornerRadius="16dp"
+            android:layout_height="130dp"
+            app:cardCornerRadius="18dp"
             app:cardElevation="6dp"
-            android:backgroundTint="#3949AB"
-            android:padding="16dp">
+            android:backgroundTint="#3949AB">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:padding="20dp">
 
                 <TextView
                     android:id="@+id/welcomeText"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Welcome 👋"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/white"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"/>
 
                 <TextView
                     android:id="@+id/emailText"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="user@email.com"
-                    android:textAlignment="center"
                     android:textColor="#E3F2FD"
                     android:textSize="14sp"
                     android:layout_marginTop="4dp"/>
@@ -56,123 +55,193 @@
             android:layout_height="20dp"/>
 
 
-        <!-- FEATURES GRID -->
-        <LinearLayout
+        <!-- 🏠 HOSTEL GRID -->
+        <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:columnCount="2">
 
-            <!-- PROFILE -->
+            <!-- CARD TEMPLATE -->
+            <!-- Jijau -->
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                app:cardCornerRadius="14dp"
-                app:cardElevation="4dp"
-                android:layout_marginBottom="12dp">
+                android:id="@+id/jijauCard"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="5dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
+                    android:gravity="center"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:padding="16dp">
+                    android:layout_height="match_parent">
 
                     <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:src="@android:drawable/ic_menu_myplaces"
                         app:tint="#3949AB"/>
 
                     <TextView
-                        android:id="@+id/profileBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Profile"
-                        android:textSize="16sp"
+                        android:text="Jijau Hostel"
                         android:textStyle="bold"
-                        android:layout_marginStart="16dp"/>
+                        android:textSize="15sp"
+                        android:layout_marginTop="8dp"/>
                 </LinearLayout>
-
             </com.google.android.material.card.MaterialCardView>
 
 
-            <!-- COMPLAINT -->
+            <!-- Savitri -->
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                app:cardCornerRadius="14dp"
-                app:cardElevation="4dp"
-                android:layout_marginBottom="12dp">
+                android:id="@+id/savitriCard"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="5dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
+                    android:gravity="center"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:padding="16dp">
+                    android:layout_height="match_parent">
 
                     <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@android:drawable/ic_menu_info_details"
-                        app:tint="#FF7043"/>
-
-                    <TextView
-                        android:id="@+id/complaintBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Complaint"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_marginStart="16dp"/>
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <!-- GATEPASS -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                app:cardCornerRadius="14dp"
-                app:cardElevation="4dp"
-                android:layout_marginBottom="12dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@android:drawable/ic_menu_directions"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/baseline_house_24"
                         app:tint="#43A047"/>
 
                     <TextView
-                        android:id="@+id/gatepassBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Gatepass"
-                        android:textSize="16sp"
+                        android:text="Savitri Hostel"
                         android:textStyle="bold"
-                        android:layout_marginStart="16dp"/>
+                        android:textSize="15sp"
+                        android:layout_marginTop="8dp"/>
                 </LinearLayout>
-
             </com.google.android.material.card.MaterialCardView>
 
-        </LinearLayout>
+
+            <!-- Matoshri -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/matoshriCard"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="5dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@android:drawable/ic_menu_compass"
+                        app:tint="#FB8C00"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Matoshri Hostel"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
 
-        <!-- LOGOUT BUTTON -->
+            <!-- Mess -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/messCard"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="5dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@android:drawable/ic_menu_agenda"
+                        app:tint="#E53935"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mess"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </GridLayout>
+
+
+        <!-- 🔴 ACTION BUTTONS -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/profileBtn"
+            android:text="Profile"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:textAllCaps="false"
+            app:cornerRadius="30dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/complaintBtn"
+            android:text="Complaint"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textAllCaps="false"
+            app:cornerRadius="30dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/gatepassBtn"
+            android:text="Gatepass"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textAllCaps="false"
+            app:cornerRadius="30dp"/>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/logoutBtn"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
             android:text="Logout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="20dp"
             android:backgroundTint="#E53935"
+            android:textColor="@android:color/white"
             app:cornerRadius="30dp"/>
 
     </LinearLayout>

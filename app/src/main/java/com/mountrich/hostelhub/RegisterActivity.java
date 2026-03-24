@@ -37,7 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle("Register");
 
         name = findViewById(R.id.name);
-        email = findViewById(R.id.email);
+        email = findViewById(R.id.emailText);
         password = findViewById(R.id.password);
         phone = findViewById(R.id.phone);
         hostel = findViewById(R.id.hostel);
