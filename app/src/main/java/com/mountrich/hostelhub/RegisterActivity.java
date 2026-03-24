@@ -2,18 +2,14 @@ package com.mountrich.hostelhub;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,9 +21,10 @@ import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText name, email, password;
+    EditText name, email, password, phone, hostel;
     AutoCompleteTextView roleSpinner;
     MaterialButton registerBtn;
+    ProgressBar progressbarRegister;
 
     FirebaseAuth auth;
     FirebaseFirestore db;
@@ -37,25 +34,29 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Register Activity");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Register");
+
         name = findViewById(R.id.name);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
+        phone = findViewById(R.id.phone);
+        hostel = findViewById(R.id.hostel);
         roleSpinner = findViewById(R.id.roleSpinner);
         registerBtn = findViewById(R.id.registerBtn);
+        progressbarRegister = findViewById(R.id.progressbarRegister);
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        // Spinner Data
+        // Role Dropdown
         String[] roles = {"Student", "Admin"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
                 roles
         );
-        roleSpinner.setText("Student", false);
         roleSpinner.setAdapter(adapter);
+        roleSpinner.setText("Student", false);
 
         registerBtn.setOnClickListener(v -> registerUser());
     }
@@ -66,89 +67,105 @@ public class RegisterActivity extends AppCompatActivity {
         String userEmail = email.getText().toString().trim();
         String userPass = password.getText().toString().trim();
         String role = roleSpinner.getText().toString().trim();
+        String userPhone = phone.getText().toString().trim();
+        String userHostel = hostel.getText().toString().trim();
 
-        // ✅ 1. Name Validation
-        if (userName.isEmpty()) {
-            name.setError("Name is required");
+        // 🔍 VALIDATIONS
+
+        if (userName.isEmpty() || userName.length() < 3) {
+            name.setError("Enter valid name");
             name.requestFocus();
             return;
         }
 
-        if (userName.length() < 3) {
-            name.setError("Name must be at least 3 characters");
-            name.requestFocus();
-            return;
-        }
-
-        // ✅ 2. Email Validation
-        if (userEmail.isEmpty()) {
-            email.setError("Email is required");
-            email.requestFocus();
-            return;
-        }
-
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
+        if (userEmail.isEmpty() ||
+                !android.util.Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
             email.setError("Enter valid email");
             email.requestFocus();
             return;
         }
 
-        // ✅ 3. Password Validation
-        if (userPass.isEmpty()) {
-            password.setError("Password is required");
+        if (userPass.isEmpty() || userPass.length() < 6) {
+            password.setError("Password must be 6+ chars");
             password.requestFocus();
             return;
         }
 
-        if (userPass.length() < 6) {
-            password.setError("Password must be at least 6 characters");
-            password.requestFocus();
+        if (userPhone.length() != 10) {
+            phone.setError("Enter valid 10 digit phone");
+            phone.requestFocus();
             return;
         }
 
-        // ✅ 4. Role Validation
+        if (userHostel.isEmpty()) {
+            hostel.setError("Enter hostel name");
+            hostel.requestFocus();
+            return;
+        }
+
         if (role.isEmpty()) {
-            Toast.makeText(this, "Please select role", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Select role", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // 🔒 Disable button to prevent multiple clicks
+        // 🔄 Show loading
+        progressbarRegister.setVisibility(View.VISIBLE);
         registerBtn.setEnabled(false);
 
-        // ✅ 5. Firebase Register
+        // 🔥 Firebase Auth
         auth.createUserWithEmailAndPassword(userEmail, userPass)
                 .addOnSuccessListener(authResult -> {
 
                     if (auth.getCurrentUser() == null) {
-                        Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                        registerBtn.setEnabled(true);
+                        showError("Something went wrong");
                         return;
                     }
 
                     String userId = auth.getCurrentUser().getUid();
 
+                    // 🔥 Firestore Data
                     Map<String, Object> user = new HashMap<>();
                     user.put("name", userName);
                     user.put("email", userEmail);
                     user.put("role", role);
+                    user.put("phone", userPhone);
+                    user.put("hostel", userHostel);
 
                     db.collection("users").document(userId)
                             .set(user)
                             .addOnSuccessListener(unused -> {
+
                                 Toast.makeText(this, "Registered Successfully", Toast.LENGTH_SHORT).show();
+
+                                progressbarRegister.setVisibility(View.GONE);
+                                registerBtn.setEnabled(true);
+
+                                clearAllFields();
 
                                 startActivity(new Intent(this, LoginActivity.class));
                                 finish();
                             })
                             .addOnFailureListener(e -> {
-                                registerBtn.setEnabled(true);
-                                Toast.makeText(this, "Database Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                showError("Database Error: " + e.getMessage());
                             });
 
                 })
                 .addOnFailureListener(e -> {
-                    registerBtn.setEnabled(true);
-                    Toast.makeText(this, "Auth Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    showError("Auth Error: " + e.getMessage());
                 });
+    }
+
+    private void showError(String message) {
+        progressbarRegister.setVisibility(View.GONE);
+        registerBtn.setEnabled(true);
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void clearAllFields() {
+        name.setText("");
+        email.setText("");
+        password.setText("");
+        phone.setText("");
+        hostel.setText("");
     }
 }
