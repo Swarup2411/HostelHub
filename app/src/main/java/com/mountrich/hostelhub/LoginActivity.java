@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                                     if ("Admin".equals(role)) {
                                         startActivity(new Intent(this, AdminDashboardActivity.class));
                                     } else {
-                                        startActivity(new Intent(this, StudentDashboardActivity.class));
+                                        startActivity(new Intent(this, MainActivity.class));
                                     }
 
                                     finish();
